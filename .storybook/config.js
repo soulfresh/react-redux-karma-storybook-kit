@@ -2,8 +2,5 @@ import { configure } from '@storybook/react';
 
 import '../src/storybook-index.scss';
 
-function loadStories() {
-  require('../src');
-}
+configure(require.context('../src/', true, /\.stories\.(js|jsx)$/), module);
 
-configure(loadStories, module);

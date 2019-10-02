@@ -1,12 +1,37 @@
-var path = require('path');
-var testHelperPath = path.resolve('src/testHelper.js')
+const path = require('path');
+const testHelperPath = path.resolve('src/testHelper.js')
 
-var timeoutArg = process.argv.filter((arg) => arg.indexOf('jasmine-timeout') > 0);
-var timeout = timeoutArg.length > 0
+// If the `jasmine-timeout` parameter is passed, set Jasmine's timeout.
+const timeoutArg = process.argv.filter((arg) => arg.indexOf('jasmine-timeout') > 0);
+const timeout = timeoutArg.length > 0
   ? parseInt(timeoutArg[0].split('=')[1], 10)
   : 5000;
 
-process.env.BABEL_ENV = 'development';
+// If the 'coverageType' parameter was passed, add coverage reporting.
+const coverageReporterArg = process.argv.filter((arg) => arg.indexOf('coverageType') > 0)[0];
+const coverageType = coverageReporterArg.split('=')[1];
+let coverageReporters;
+switch(coverageType) {
+  case 'summary':
+    coverageReporters = [{type: 'text-summary'}];
+    break;
+  case 'details':
+    coverageReporters = [{type: 'text'}, {type: 'text-summary'}];
+    break;
+  case 'ci':
+    coverageReporters = [
+      {type: 'lcov', subdir: 'report-html'},
+      {type: 'text'},
+      {type: 'text-summary'}
+    ];
+    break;
+  default:
+    coverageReporters = [];
+    break;
+}
+
+// Set the React environment to 'test'.
+process.env.BABEL_ENV = 'test';
 
 module.exports = function(config) {
   config.set({
@@ -15,7 +40,7 @@ module.exports = function(config) {
     browsers: ['Chrome'],
 
     // https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'jasmine-matchers'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -29,6 +54,15 @@ module.exports = function(config) {
     webpack: {
       mode: 'development',
       devtool: 'inline-source-map',
+      resolve: {
+        alias: {
+          '~': path.resolve(__dirname, 'src/'),
+          '~assets': path.resolve(__dirname, 'src/assets'),
+          '~components': path.resolve(__dirname, 'src/components'),
+          '~pages': path.resolve(__dirname, 'src/pages'),
+          '~store': path.resolve(__dirname, 'src/store'),
+        }
+      },
       module: {
         rules: [
           {
@@ -49,11 +83,22 @@ module.exports = function(config) {
                 use: ['@svgr/webpack', 'url-loader'],
               },
               {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                  'file-loader'
+                ]
+              },
+              {
                 test: /\.scss$/,
                 use: [
                   "style-loader", // creates style nodes from JS strings
                   "css-loader", // translates CSS into CommonJS
-                  "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                  {
+                    loader: 'sass-loader',
+                    options: {
+                      includePaths: ['src']
+                    },
+                  },
                 ]
               }
             ]
@@ -77,12 +122,14 @@ module.exports = function(config) {
       }
     },
 
-    // TODO Enable Instanbul coverage reporting
-
     junitReporter: {
       outputDir: './test-results/karma',
       outputFile: 'junit.xml',
       useBrowserName: true
+    },
+
+    coverageReporter: {
+      reporters: coverageReporters
     },
 
     browserConsoleLogOptions: {

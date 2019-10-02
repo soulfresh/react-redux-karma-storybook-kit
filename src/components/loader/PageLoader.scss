@@ -1,0 +1,72 @@
+@import 'theme';
+
+// The following code can be used to generate the
+// styles embedded on the homepage. I'm keeping them here
+// should we need to modify the loader in the future.
+// @keyframes scale-in-out {
+//   0% {
+//     transform: scale(0);
+//   }
+//   20% {
+//     transform: scale(1);
+//   }
+//   60% {
+//     transform: scale(1);
+//   }
+//   80% {
+//     transform: scale(0);
+//   }
+//   100% {
+//     transform: scale(0);
+//   }
+// }
+//
+// @keyframes color-cycle {
+//   0% {
+//     fill: hsls(0, 100%, 0%);
+//   }
+//   10% {
+//     fill: hsls(0, 100%, 0%);
+//   }
+//
+//   @for $i from 1 through 9 {
+//     $percent: ($i * 10) + 5;
+//     $degree: (360 / 9) * $i;
+//
+//     #{$percent}% {
+//       fill: hsls($degree, 100%, 50%);
+//     }
+//   }
+//
+//   100% {
+//     fill: hsls(0, 100%, 0%);
+//   }
+// }
+//
+// .loader {
+//   $speed: 5s;
+//
+//   .circle {
+//     fill: red;
+//     animation: scale-in-out $speed ease(out-hard) infinite,
+//       color-cycle #{$speed * 6} linear infinite;
+//     transform: scale(0);
+//   }
+//
+//   // stylelint-disable-next-line no-duplicate-selectors
+//   .circle-1 { transform-origin: 21.3px     7.621px; }
+//   .circle-2 { transform-origin: 61.015px  37.516px; }
+//   .circle-3 { transform-origin: 98.67px   69.827px; }
+//   .circle-4 { transform-origin: 98.536px 105.357px; }
+//   .circle-5 { transform-origin: 91.228px 129.967px; }
+//   .circle-6 { transform-origin: 67.684px 112.761px; }
+//   .circle-7 { transform-origin: 53.672px  89.795px; }
+//   .circle-8 { transform-origin: 20.932px  91.441px; }
+//   .circle-9 { transform-origin: 47.776px  68.815px; }
+//
+//   @for $i from 1 through 9 {
+//     .circle-#{$i} {
+//       animation-delay: #{$i * 120}ms;
+//     }
+//   }
+// }

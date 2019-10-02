@@ -19,6 +19,24 @@ $white: #FFF !default;
   );
 }
 
+////
+// Generate a palette with even color gradiation
+// between 5 stops (100, 500, 900).
+////
+@function make-palette-5($color1, $color3, $color5, $color7, $color9) {
+  @return (
+    100: $color1,
+    200: mix($color1, $color3, 50%),
+    300: $color3,
+    400: mix($color3, $color5, 50%),
+    500: $color5,
+    600: mix($color5, $color7, 50%),
+    700: $color7,
+    800: mix($color7, $color9, 50%),
+    900: $color9,
+  );
+}
+
 //// PRIMARY ////
 $primary-1: #B2EBF2;
 $primary-5: #00BCD4;

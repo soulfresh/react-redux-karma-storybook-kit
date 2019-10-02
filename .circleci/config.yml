@@ -1,0 +1,110 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  test:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:11.10-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}-{{ checksum ".nvmrc" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}-{{ checksum ".nvmrc" }}
+
+      # run tests!
+      - run: yarn validate
+      - store_test_results:
+          path: test-results
+      # https://circleci.com/docs/2.0/artifacts/
+      - store_artifacts:
+          path: test-results
+      - store_artifacts:
+          path: coverage
+
+  deploy-storybook:
+    docker:
+      - image: circleci/node:11.10-browsers
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}-{{ checksum ".nvmrc" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+      - run: yarn deploy-storybook-ci
+
+  deploy-stage:
+    docker:
+      - image: circleci/node:11.10-browsers
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Heroku Staging
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/ninedot-floorplan.git master
+
+  # deploy-prod:
+  #   docker:
+  #     - image: circleci/node:11.10-browsers
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - v1-dependencies-{{ checksum "yarn.lock" }}-{{ checksum ".nvmrc" }}
+  #           - v1-dependencies-
+  #     - run: yarn build-prod
+  #     - run: yarn deploy-prod --token "$TOKEN"
+
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: gh-pages
+            # https://circleci.com/docs/2.0/workflows/#git-tag-job-execution
+            tags:
+              only: /.*/
+
+      - deploy-storybook:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+              ignore: gh-pages
+
+      - deploy-stage:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+              ignore: gh-pages
+

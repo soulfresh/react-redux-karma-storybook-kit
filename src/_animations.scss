@@ -1,0 +1,47 @@
+// Speeds
+$t-s  : 150ms !default;
+$t-m  : 300ms !default;
+$t-l  : 500ms !default;
+$t-xl : 750ms !default;
+
+$speeds: (
+  default: $t-m,
+  s: $t-s,
+  m: $t-m,
+  l: $t-l,
+  xl: $t-xl,
+);
+
+@function speed($speed: default) {
+  $s: map-get($speeds, $speed);
+
+  @if $s == null {
+    @error('Could not find speed #{$speed} on the theme provided: #{$speeds}');
+  }
+
+  @return $s;
+}
+
+$e-out         : ease-out !default;
+$e-in-out      : ease-in-out !default;
+$e-out-hard    : cubic-bezier(0.215, 0.61,  0.355, 1) !default;
+$e-in-out-hard : cubic-bezier(0.645, 0.045, 0.355, 1) !default;
+
+$easings: (
+  default: $e-out,
+  out: $e-out,
+  in-out: $e-in-out,
+  out-hard: $e-out-hard,
+  in-out-hard: $e-in-out-hard,
+);
+
+@function ease($ease: default) {
+  $s: map-get($easings, $ease);
+
+  @if $s == null {
+    @error('Could not find ease #{$ease} on the theme provided: #{$easings}');
+  }
+
+  @return $s;
+}
+

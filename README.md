@@ -6,6 +6,42 @@ and [Redux Starter Kit](https://redux-starter-kit.js.org/). It uses
 with [Jasmine](https://jasmine.github.io/) for testing and
 [Storybook](https://storybook.js.org/) for component development.
 
+
+## Environments
+
+### Staging Environment
+
+
+Any commit pushed to master will automatically be released to the stage
+environment if the build on CircleCI passes.
+
+
+### Production Environment
+
+
+### CircleCI
+
+
+This project is configured so that commits to the master branch are automatically
+pushed to the Heroku staging environment.
+
+
+#### Artifacts
+
+CircleCI builds will generate artifacts with test results and code bundle
+analysis that can be found in the artifacts tab of the build.
+
+`coverage/report-html/lcov-report/index.html` - contains a browsable HTML code coverage report.
+`coverage/analysis/result.html` - contains the bundle size analysis.
+`coverage/junit` - contains machine readable junit test coverage output.
+
+### Storybook
+
+
+The storybook (component library) for this project is updated automatically
+when new commits are pushed to the master branch. You can also run the
+`deploy-storybook` script to release to this environment manually.
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -34,6 +70,22 @@ Run ESLint and Styleing.
 ### `npm validate`
 
 Run linting and tests locally in a manner similar to how they are run on the CI server.
+This includes generating code coverage reports and bundle analysis.
+
+### `npm coverage`
+
+Generate code coverage reports for the project. This will both print coverage statistics
+to the console and will generage coverage files including an HTML coverage report.
+Coverage files are generated into the `./coverage` directory.
+
+`coverage/report-html/lcov-report/index.html` - contains a browsable HTML code coverage report.
+
+### `npn analyze`
+
+Run production build code bundle size analysis. This generates an HTML report of your
+bundle sizes that you can explore to see where code bloat comes from.
+
+`coverage/analysis/result.html` - contains the bundle size analysis.
 
 ### `npm storybook`
 
@@ -48,6 +100,15 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run release`
+
+Release the app to Heroku. You will probably need to be logged into Heroku.
+It will deploy the project as it currently exists on your file system (ie. will not deploy a specific branch or tag).
+
+### `npm deploy-storybook`
+
+Build the most recent storybook app and publish it to this project's GitHub pages.
 
 ### `npm run eject`
 
