@@ -1,0 +1,31 @@
+/* NotFound */
+@import 'theme';
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: size(m);
+  text-align: center;
+  align-items: center;
+
+  .loader-component {
+    flex-grow: 1;
+  }
+
+  .title,
+  .subtitle {
+    max-width: 400px;
+  }
+
+  .subtitle {
+    margin-bottom: size(xxl);
+  }
+
+  .loader {
+    position: static;
+    transform: none;
+    min-width: 130px;
+    min-height: 130px;
+  }
+}

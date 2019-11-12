@@ -1,27 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense, lazy, useState } from 'react';
+
+import { PageLoader, LoaderService } from './components';
+import { BundleLoadError } from './pages/bundle-load-error';
+import { Login } from './pages/login';
+import AuthAPI from './store/services/auth';
+import defaultHistory from './store/history';
 
 import './App.scss';
 
-function App() {
+// Create two separate bundles so the login page can
+// load as quickly as possible.
+const Home = lazy(() => import('./pages/home/Home.jsx'));
+
+export default function App({
+  history
+}) {
+  history = history || defaultHistory;
+  const token = AuthAPI.getToken();
+
+  const [authenticated, setAuthenticated] = useState(!!token);
+
+  const onAuthSuccess = () => setAuthenticated(true);
+  const onAuthFailure = () => setAuthenticated(false);
+
+  const view = authenticated
+    ? <Home onAuthFailure={onAuthFailure} history={history} />
+    : <Login onSuccess={onAuthSuccess} />;
+
+  LoaderService.stop();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BundleLoadError>
+        <Suspense fallback={<PageLoader />}>
+          { view }
+        </Suspense>
+      </BundleLoadError>
     </div>
   );
 }
-
-export default App;

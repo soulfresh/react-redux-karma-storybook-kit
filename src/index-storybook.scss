@@ -1,0 +1,25 @@
+@import 'theme';
+
+@import 'font-faces';
+@import 'default-element-styles';
+
+body {
+  font-size: font-size();
+  @include body-font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgba(0, 150, 255, 0.1);
+}
+
+.chapter {
+  border-top: 1px solid foreground(divider);
+}
+
+.chapter-header {
+  margin: 30px 0;
+}
+
+.section-component-container {
+  padding: size(l);
+  background-color: background();
+}

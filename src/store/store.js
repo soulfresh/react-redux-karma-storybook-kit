@@ -20,6 +20,10 @@ export const reducerConfig = {
 
 const rootReducer = combineReducers(reducerConfig);
 
+/*
+ * You can use this action to reset the store
+ * to it's initial state.
+ */
 export function reset() {
   return {
     type: 'RESET',
@@ -27,17 +31,31 @@ export function reset() {
   }
 }
 
-export default configureStore({
-  reducer: (state, action) => {
-    if (action.type === 'RESET') {
-      // Reset to the initial store state.
-      return rootReducer(undefined, action);
-    }
+export function authFailure() {
+  return {
+    type: 'AUTH_FAILURE',
+    payload: null
+  }
+}
 
-    return rootReducer(state, action);
-  },
-  middleware: middlewares
-});
+export default function createStore(onAuthFailure, initialState) {
+  return configureStore({
+    reducer: (state, action) => {
+      switch (action.type) {
+        case 'RESET':
+          // Reset to the initial store state.
+          return rootReducer(undefined, action);
+        case 'AUTH_FAILURE':
+          onAuthFailure();
+          return state;
+        default:
+          return rootReducer(state, action);
+      }
+    },
+    middleware: middlewares,
+    preloadedState: initialState,
+  });
+}
 
 // Another potential option for combining selectors:
 // https://cmichel.io/redux-selectors-structure

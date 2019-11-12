@@ -8,6 +8,7 @@
             '**/*page-object*',
             '**/*stories*',
             '**/index*',
+            '**/PageObject*'
           ]
         }]
       ]
