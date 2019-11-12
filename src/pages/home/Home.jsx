@@ -36,15 +36,13 @@ export default function Home({
   return (
     <div className="home">
       <Provider store={store}>
-        <DndProvider backend={HTML5Backend}>
-          <Router history={history}>
-            <Suspense fallback={<PageLoader />}>
-              <Switch>
-                <Route component={NotFound} />
-              </Switch>
-            </Suspense>
-          </Router>
-        </DndProvider>
+        <Router history={history}>
+          <Suspense fallback={<PageLoader />}>
+            <Switch>
+              <Route component={NotFound} />
+            </Switch>
+          </Suspense>
+        </Router>
       </Provider>
     </div>
   );

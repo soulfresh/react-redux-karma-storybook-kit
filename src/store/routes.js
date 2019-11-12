@@ -23,8 +23,8 @@ export const Routes = new Map([
  *   (without the leading ':'). If parameters is not passed, the raw
  *   path is returned.
  *
- *   Ex: {projectId: 123} will replace the project id token in the route
- *   `/project/:projectId/new` with the value 123.
+ *   Ex: {fooId: 123} will replace the foo id token in the route
+ *   `/foo/:fooId/new` with the value 123.
  *
  * @return {string} The url that can be used to route to a specific page.
  */
