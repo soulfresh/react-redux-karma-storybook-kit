@@ -58,10 +58,10 @@
     "stylelint-a11y": "^1.2.1",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-scss": "^3.8.0",
-    "webpack": "^4.41.0"
+    "webpack": "4.41.0"
   },
   "scripts": {
-    "start": "env-cmd -f ./.env.stage react-app-rewired start",
+    "start": "env-cmd -f ./.env react-app-rewired start",
     "start-local": "env-cmd -f ./.env.local-dev react-app-rewired start",
     "build": "react-app-rewired build",
     "analyze": "yarn build && source-map-explorer 'build/static/js/*.js' --html coverage/analysis/result.html",

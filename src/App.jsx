@@ -10,7 +10,7 @@ import './App.scss';
 
 // Create two separate bundles so the login page can
 // load as quickly as possible.
-const Home = lazy(() => import('./pages/home/Home.jsx'));
+const Main = lazy(() => import('./pages/main/Main.jsx'));
 
 export default function App({
   history
@@ -24,7 +24,7 @@ export default function App({
   const onAuthFailure = () => setAuthenticated(false);
 
   const view = authenticated
-    ? <Home onAuthFailure={onAuthFailure} history={history} />
+    ? <Main onAuthFailure={onAuthFailure} history={history} />
     : <Login onSuccess={onAuthSuccess} />;
 
   LoaderService.stop();
