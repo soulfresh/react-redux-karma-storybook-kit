@@ -43,6 +43,18 @@ $grid-breakpoints: (
 ) !default;
 
 ////
+// Convert a pixel value into a rem value.
+// Do not pass the pixel unit (ie. 10px); just pass the value (ie. 10).
+//
+// Ex: `margin: rem(10);`
+////
+@function rem($pixels) {
+  // If you want to debug things in pixel values, uncomment the following...
+  // @return $pixels * 1px;
+  @return ($pixels / $base-font) * 1rem;
+}
+
+////
 // Get one of standard measurements (sizes) from the theme.
 //
 // Ex: `margin: size(xxl);`

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
-import exampleReducer, { selectExamples } from './example.store';
+import exampleReducer, { selectExamples } from './example/example.store';
 
 const middlewares = [...getDefaultMiddleware()];
 

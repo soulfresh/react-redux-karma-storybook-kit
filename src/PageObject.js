@@ -96,6 +96,18 @@ export class PageSelector {
   }
 
   /*
+   * Get a PageSelector configured to select against the
+   * nth element in root.
+   *
+   * Example:
+   * page.input.nthChild(2).value = 'foo';
+   */
+  nthChild(index) {
+    const nthChildSelector = `${this.selector}:nth-child(${index})`;
+    return new PageObject(nthChildSelector, this.root);
+  }
+
+  /*
    * Count the number of elements in the DOM that match
    * this proxy.
    */
@@ -121,8 +133,36 @@ export class PageSelector {
    * Get the classList object for the element matching
    * this selector.
    */
-  get css() {
+  get classList() {
     return this.element.classList;
+  }
+
+  /*
+   * Check if the element matching the current selector
+   * has a specific class name.
+   */
+  hasClass(className) {
+    return this.classList.contains(className);
+  }
+
+  /*
+   * Get the checked value of a checkbox or radio input.
+   */
+  get checked() {
+    const el = this.element;
+    if (el) {
+      return this.element.checked;
+    }
+  }
+
+  /*
+   * Set the checked value of a checkbox or radio input.
+   */
+  set checked(value) {
+    const el = this.element;
+    if (el) {
+      el.checked = value;
+    }
   }
 
   /*
@@ -166,8 +206,8 @@ export class PageSelector {
     console.error(`${this.selector} does not exist and thus cannot be set to ${value}.`);
   }
 
-  simulateAction(action) {
-    const el = this.element;
+  simulateAction(action, element) {
+    const el = element || this.element;
     if (el) {
       Simulate[action](el);
       return true;
@@ -176,10 +216,39 @@ export class PageSelector {
     return false;
   }
 
+  /*
+   * Click on the first element that matches this selector.
+   */
   click() {
-    return this.simulateAction('click');
+    const el = this.element;
+    switch (el.tagName) {
+      case 'INPUT':
+        if (el.type !== 'submit') {
+          return this.simulateAction('change');
+        } else {
+          return this.simulateAction('submit');
+        }
+      default:
+        return this.simulateAction('click');
+    }
   }
 
+  /*
+   * Perform a click action on the Nth item that matches
+   * the current selector.
+   */
+  clickNth(index) {
+    const elements = this.allElements;
+    if (elements.length <= index) {
+      console.error(`${this.selector} index ${index} does not exist and thus cannot be clicked.`);
+    } else {
+      this.simulateAction('click', elements[index]);
+    }
+  }
+
+  /*
+   * Simulate a submit event on the element matching the current selector.
+   */
   submit() {
     return this.simulateAction('submit');
   }
@@ -444,5 +513,94 @@ export default class PageObject {
   setInputValue(value, input) {
     input.value = value;
     Simulate.change(input);
+  }
+
+  /*
+   * Simulate a click event on an elment.
+   */
+  clickElement(element) {
+    Simulate.click(element);
+  }
+
+  dispatchEvent(element, eventName, eventConstructor = CustomEvent, options = {}) {
+    const eventOptions = {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+      ...options,
+    };
+    element.dispatchEvent(new eventConstructor(eventName, eventOptions));
+  }
+
+  /*
+   * Simulate a dragging files over an element by triggering
+   * dragenter and dragover DOM events.
+   */
+  dragFiles(element, files, x=0, y=0) {
+    const defaultOptions = {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    };
+
+    const data = {
+      dropEffect: 'none',
+      effectsAllowed: 'all',
+      types: [ 'Files' ],
+      items: files.map((f) => ({kind: 'file', type: f.type})),
+      files: files,
+    };
+
+    // Use CustomEvent instances so we can configure the dataTransfer object.
+    let enterEvent = new CustomEvent('dragenter', defaultOptions);
+    enterEvent.clientX = x;
+    enterEvent.clientY = y;
+    enterEvent.dataTransfer = data;
+    element.dispatchEvent(enterEvent);
+
+    let overEvent = new CustomEvent('dragover', defaultOptions);
+    overEvent.clientX = x;
+    overEvent.clientY = y;
+    overEvent.dataTransfer = data;
+    element.dispatchEvent(overEvent);
+  }
+
+  /*
+   * Simulate a file drop event by triggering
+   * dragenter, dragover and drop DOM events.
+   */
+  dropFiles(element, files, x=0, y=0) {
+    const defaultOptions = {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    };
+
+    const data = {
+      dropEffect: 'none',
+      effectsAllowed: 'all',
+      types: [ 'Files' ],
+      items: files.map((f) => ({kind: 'file', type: f.type})),
+      files: files,
+    };
+
+    // Use CustomEvent instances so we can configure the dataTransfer object.
+    let enterEvent = new CustomEvent('dragenter', defaultOptions);
+    enterEvent.clientX = x;
+    enterEvent.clientY = y;
+    enterEvent.dataTransfer = data;
+    element.dispatchEvent(enterEvent);
+
+    let overEvent = new CustomEvent('dragover', defaultOptions);
+    overEvent.clientX = x;
+    overEvent.clientY = y;
+    overEvent.dataTransfer = data;
+    element.dispatchEvent(overEvent);
+
+    let dropEvent = new CustomEvent('drop', defaultOptions);
+    dropEvent.clientX = x;
+    dropEvent.clientY = y;
+    dropEvent.dataTransfer = data;
+    element.dispatchEvent(dropEvent);
   }
 }

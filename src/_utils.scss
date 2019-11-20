@@ -1,6 +1,68 @@
-
+// Add ellipsis to an element. This
+// will force the element to be a single
+// line of text (it is not possible
+// to add ellipses to multiline text with CSS).
 @mixin ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+// Center the elements inside a
+// container by making it a flex
+// element.
+@mixin flex-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Make an element fill its parent
+// using absolute positioning.
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// Represents a horizontal row of elements
+// where the contents are justified with
+// space-between so they align to the edges
+// of the browser.
+@mixin row() {
+  display: flex;
+  justify-content: space-between;
+}
+
+// Generates an HSL color string. Useful
+// if you don't want SCSS to convert HSL
+// values to HEX.
+@function hsls($hue, $saturation, $lightness) {
+  @return unquote("hsl(#{$hue}, #{$saturation}, #{$lightness})");
+}
+
+// Make a <ul> or <ol> element look like a regular div.
+@mixin unbulleted-list {
+  list-style-type: none;
+}
+
+// Make an image fill it's parent container
+// and make sure the parent container background
+// is not visible (image fills the container).
+@mixin cover-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+// Make an image fill it's parent container
+// and make sure the image is fully visible
+// in the parent container (it should show
+// the parent container background if necessary).
+@mixin contain-image {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
 }

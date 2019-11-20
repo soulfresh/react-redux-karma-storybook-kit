@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from 'redux-starter-kit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 // Simplified mechanism for creating a Reducer and its
 // associated Actions.

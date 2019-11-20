@@ -1,0 +1,33 @@
+@import 'theme';
+
+.checkbox {
+  $width: 20px;
+
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    position: relative;
+    height: $width;
+    width: $width;
+    padding: 0;
+    margin: 0;
+
+    opacity: 0;
+    cursor: pointer;
+
+    // &:checked ~ .icon {
+    //   background-color: color(primary);
+    // }
+  }
+
+  .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width:  100%;
+  }
+}
