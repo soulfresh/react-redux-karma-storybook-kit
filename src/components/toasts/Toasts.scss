@@ -1,0 +1,51 @@
+@import 'theme';
+
+.toast {
+  display: flex;
+  padding: size(xxs) size(xxs) size(xxs) size(m);
+  margin: size(xs);
+  border-radius: radius(m);
+  box-shadow: color(shadows, overlay);
+
+  .message {
+    text-align: left;
+    align-items: center;
+    display: flex;
+  }
+
+  &.info {
+    background-color: background();
+    color: foreground();
+
+    .close-button {
+      color: foreground();
+    }
+  }
+
+  &.success {
+    background-color: color(success, 200);
+    color: color(success, 900);
+
+    .close-button {
+      color: color(success, 900);
+    }
+  }
+
+  &.warning {
+    background-color: color(warn, 200);
+    color: color(warn, 900);
+
+    .close-button {
+      color: color(warn, 900);
+    }
+  }
+
+  &.error {
+    background-color: color(error, 200);
+    color: color(error, 900);
+
+    .close-button {
+      color: color(error, 900);
+    }
+  }
+}

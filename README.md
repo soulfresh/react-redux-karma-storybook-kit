@@ -63,6 +63,10 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Run tests with a longer timeout in order to avoid timeout issues while stepping through code with a debugger.
 
+### `yarn generate component`
+
+Generate a react component inside the components directory.
+
 ### `npm lint`
 
 Run ESLint and Styleing.

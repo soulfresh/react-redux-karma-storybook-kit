@@ -8,6 +8,13 @@
   overflow: hidden;
 }
 
+// Fade out an element and make it unclickable.
+@mixin disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
 // Center the elements inside a
 // container by making it a flex
 // element.

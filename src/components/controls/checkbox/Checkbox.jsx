@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {ReactComponent as Circle} from '~assets/icons/square.svg';
@@ -15,7 +15,7 @@ export default function Checkbox({
   const inputProps = {};
   if (value) inputProps.value = value;
   if (name) inputProps.name = name;
-  if (checked) inputProps.checked = true;
+  inputProps.checked = !!inputProps.checked;
 
   const icon = checked
     ? <Check className="icon checked" data-test="checked" />

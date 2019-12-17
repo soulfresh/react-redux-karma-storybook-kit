@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Provider } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {
   Router,
@@ -52,4 +53,9 @@ export default function Main({
       </Provider>
     </div>
   );
+}
+
+Main.propTypes = {
+  onAuthFailure: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 }

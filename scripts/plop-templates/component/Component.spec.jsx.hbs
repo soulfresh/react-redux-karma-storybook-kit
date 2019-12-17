@@ -1,0 +1,22 @@
+import React from 'react';
+
+import {{pascalCase name}} from './{{pascalCase name}}.jsx';
+import {{pascalCase name}}PageObject from './{{pascalCase name}}.page-object';
+
+describe('{{pascalCase name}}', function() {
+  let page;
+
+  beforeEach(function() {
+    page = new {{pascalCase name}}PageObject();
+  });
+
+  afterEach(function() {
+    page.destroySandbox();
+  });
+
+  beforeEach(function() {
+    page.render(
+      <{{pascalCase name}} />
+    );
+  });
+});

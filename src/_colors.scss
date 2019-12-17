@@ -38,15 +38,15 @@ $white: #FFF !default;
 }
 
 //// PRIMARY ////
-$primary-1: #B2EBF2;
-$primary-5: #00BCD4;
+$primary-1: #DBF9F4;
+$primary-5: #5EB7B7;
 $primary-9: #006064;
 $palette-primary: make-palette($primary-1, $primary-5, $primary-9) !default;
 
 //// SECONDARY ////
-$secondary-1: #B2EBF2;
-$secondary-5: #00BCD4;
-$secondary-9: #006064;
+$secondary-1: #f3e4df; //#FFAFB0;
+$secondary-5: #f8b195; //#FC7978;
+$secondary-9: #b76c4e; //#AD4140;
 $palette-secondary: make-palette($secondary-1, $secondary-5, $secondary-9) !default;
 
 //// GRAYSCALE ////
@@ -74,24 +74,28 @@ $warn-9: #FF6F00;
 $palette-warn: make-palette($warn-1, $warn-5, $warn-9) !default;
 
 
+$focus-color: map-get($palette-primary, 500);
+
 //// BACKGROUND ////
 // Colors for use as element backgrounds like hover states or card backgrounds.
 $palette-background-light: (
   default: $white,
   hover: rgba($black, 0.1),
-  focus: rgba($black, 0.1),
-  input: rgba($black, 0.1),
   overlay: rgba($black, 0.2),
   fade: rgba($black, 0.6),
+  shaded: rgba($black, 0.05),
+  focus: rgba($focus-color, 0.8),
+  active: rgba($focus-color, 0.9),
 ) !default;
 
 $palette-background-dark: (
-  default: map-get($palette-primary, 900),
+  default: $black,
   hover: rgba($white, 0.1),
-  focus: rgba($white, 0.1),
-  input: rgba($white, 0.02),
   overlay: rgba($white, 0.2),
   fade: rgba($white, 0.6),
+  shaded: rgba($white, 0.05),
+  focus: rgba($focus-color, 0.8),
+  active: rgba($focus-color, 0.9),
 ) !default;
 
 
@@ -100,26 +104,27 @@ $palette-background-dark: (
 $palette-foreground-light: (
   opaque: $black,
   default: rgba($black, 0.9),
-  text: rgba($black, 0.75),
-  focus: rgba($black, 0.75),
-  light-text: rgba($black, 0.65),
-  faded-text: rgba($black, 0.3),
-  disabled-text: rgba($black, 0.4),
+  text: rgba($black, 0.9), // Should match default
+  light: rgba($black, 0.6),
+  faded: rgba($black, 0.5),
+  disabled: rgba($black, 0.4),
   divider: rgba($black, 0.3),
-  border: rgba($black, 0.08)
+  border: rgba($black, 0.15),
+  focus: rgba($focus-color, 0.75),
+  active: rgba($focus-color, 1),
 ) !default;
 
 $palette-foreground-dark: (
   opaque: $white,
   default: rgba($white, 0.9),
-  text: rgba($white, 0.9),
-  focus: rgba($white, 0.9),
-  light-text: rgba($white, 0.8),
-  faded-text: rgba($white, 0.7),
-  disabled-text: rgba($white, 0.5),
-  active-text: rgba($white, 1),
+  text: rgba($white, 0.9), // Should match default
+  light: rgba($white, 0.8),
+  faded: rgba($white, 0.7),
+  disabled: rgba($white, 0.4),
   divider: rgba($white, 0.3),
-  border: rgba($white, 0.08)
+  border: rgba($white, 0.15),
+  focus: rgba($focus-color, 0.75),
+  active: rgba($focus-color, 1),
 ) !default;
 
 

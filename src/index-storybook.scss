@@ -1,5 +1,11 @@
-@import 'index';
+@import './index';
 
+body {
+  margin: size(m);
+  background-color: rgba(0, 150, 255, 0.1);
+}
+
+// addon-withChapters
 .chapter {
   border-top: 1px solid foreground(divider);
 }
@@ -11,4 +17,49 @@
 .section-component-container {
   padding: size(l);
   background-color: background();
+  margin-bottom: size(l) !important;
+}
+
+
+@mixin generate-background-color-palettes($palettes, $theme: $theme-light, $selector: background-color, $qualifier: '') {
+  @each $paletteName in $palettes {
+    $palette: map-get($theme, $paletteName);
+    @each $name, $value in $palette {
+      .color-palette.#{$paletteName}#{$qualifier} {
+        .color.hue-#{$name} {
+          #{$selector}: $value;
+        }
+      }
+    }
+  }
+}
+
+$standard-palettes: primary, secondary, grayscale, success, warn, error;
+@include generate-background-color-palettes($standard-palettes);
+@include generate-background-color-palettes(foreground, $theme-light, color);
+@include generate-background-color-palettes(foreground, $theme-dark, color, '.dark');
+@include generate-background-color-palettes(background, $theme-light, background-color);
+@include generate-background-color-palettes(background, $theme-dark, background-color, '.dark');
+
+.color-palette {
+  display: inline-block;
+  width: 200px;
+  margin: size(m);
+  padding: size(xxxs);
+
+  .color {
+    padding: size(xxs);
+
+    &.hue-800,
+    &.hue-900 {
+      color: foreground-dark();
+    }
+  }
+
+  &.dark {
+    .values {
+      color: foreground-dark();
+      background-color: background-dark();
+    }
+  }
 }

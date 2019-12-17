@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
 import { storiesOf } from '@storybook/react';
-import { actions } from '@storybook/addon-actions';
+import { action } from '@storybook/addon-actions';
 
 import Checkbox from './Checkbox.jsx';
 
 function Example() {
-  const [value, setValue] = useState(false);
-  const onChange = () => {
-    actions('onChange');
-    setValue(!value);
+  const [checked, setChecked] = useState(true);
+  const log = action('onChange');
+  const onChange = (e) => {
+    log(e);
+    setChecked(!checked);
   };
-  return <Checkbox value={value} onChange={onChange} />
+  return <Checkbox checked={checked} onChange={onChange} />
 }
 
 storiesOf('Checkbox', module)

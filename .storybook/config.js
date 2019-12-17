@@ -1,9 +1,10 @@
 import React from 'react';
-import { configure, setAddon, addParameters } from '@storybook/react';
+import { configure, setAddon, addParameters, addDecorator } from '@storybook/react';
 import chaptersAddon, { setDefaults } from 'react-storybook-addon-chapters';
 
 import '../src/index-storybook.scss';
 
+// Storybook UI Preferences
 addParameters({
   options: {
     showPanel: true,
@@ -11,10 +12,11 @@ addParameters({
   }
 })
 
+// With Chapters Addon Preferences
 setDefaults({
   sectionOptions: {
     showSource: false,
-    allowSourceToggling: false,
+    allowSourceToggling: true,
     showPropTables: false,
     allowPropTablesToggling: true,
     decorator: story => (<div>{story()}</div>),

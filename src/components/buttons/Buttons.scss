@@ -1,0 +1,43 @@
+@import 'theme';
+
+.icon-button {
+  .remove,
+  .close,
+  .add,
+  .back,
+  .pencil,
+  .arrow {
+    transition: transform speed(s) ease-in-out;
+  }
+
+  .close, .remove {
+    transition: transform speed(m) ease-in-out,
+      stroke-width speed(m) linear;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    .upload .arrow {
+      transform: translateY(-5px);
+    }
+
+    .pencil {
+      transform: translate(3px, -3px);
+    }
+
+    .back {
+      transform: translateX(-5px);
+    }
+
+    .add {
+      transform: rotate(90deg);
+    }
+
+    .close, .remove {
+      transform: rotate(90deg);
+      stroke: color(primary);
+      stroke-width: 3px;
+    }
+  }
+}

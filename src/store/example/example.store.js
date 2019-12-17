@@ -4,6 +4,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 // associated Actions.
 // @see https://redux-starter-kit.js.org/usage/usage-guide#creating-slices-of-state
 const ExampleSlice = createSlice({
+  name: 'Example',
   initialState: {
     initialized: false,
     notices: [],

@@ -3,16 +3,17 @@
 
 button, .button {
   display: inline-block;
-  color: foreground-dark();
-  background: background-dark();
   padding: size(s) size(xl);
   border: none;
   border-radius: radius();
+  transition: background-color speed(s) linear, color speed(s) linear;
 
+  font-size: font-size();
   cursor: pointer;
 
-  &.secondary {
-    background-color: background-dark(fade);
+  &:not(.transparent):not(.link) {
+    color: foreground-dark();
+    background: color(grayscale, 900);
   }
 
   &:hover,
@@ -21,13 +22,101 @@ button, .button {
     outline: none;
   }
 
+  &.transparent {
+    background-color: transparent;
+
+    &:focus,
+    &:active,
+    &:hover {
+      background-color: background(hover);
+    }
+  }
+
+  $colors: primary, secondary, success, warn, error;
+  @each $color in $colors {
+    &.#{$color} {
+      &:not(.transparent):not(.link) {
+        background-color: color($color, 600);
+
+        &:hover:not(.focused) {
+          background-color: color($color, 500);
+        }
+      }
+
+      &.transparent {
+        color: color($color);
+
+        &:hover:not(.focused) {
+          color: color($color, 500);
+        }
+      }
+    }
+  }
+
+  &.secondary:not(.link) {
+    background-color: background-dark(fade);
+  }
+
   &:hover {
-    background-color: background-dark(hover);
+    &:not([disabled]):not(.transparent) {
+      background-color: color(grayscale, 700);
+    }
   }
 
   &:focus,
-  &:active {
-    background-color: background-dark(focus);
+  &:active,
+  &.focused {
+    &:not(.transparent):not(.link) {
+      background-color: background-dark(focus);
+
+      &:hover {
+        background-color: rgba(background-dark(focus), 0.7) !important;
+      }
+    }
+
+    &.transparent {
+      color: foreground(focus);
+    }
+  }
+
+  &[disabled] {
+    @include disabled;
+  }
+}
+
+a, .link {
+  padding: size(xxxs);
+  background: none;
+  border: none;
+  color: color(primary);
+  text-decoration: none;
+  transition: color speed(s) linear;
+
+  $colors: primary, secondary, success, warn, error;
+  @each $color in $colors {
+    &.#{$color}:not(.button) {
+      color: color($color);
+
+      &:hover:not(.focused) {
+        color: color($color, 400);
+      }
+    }
+  }
+
+  &:hover,
+  &:active,
+  &:focus,
+  &.focused {
+    &:not([disabled]):not(.button) {
+      color: foreground(focus);
+      outline: none;
+      background: none;
+      text-decoration: underline;
+    }
+  }
+
+  &[disabled] {
+    @include disabled;
   }
 }
 
@@ -35,59 +124,66 @@ a.button {
   &:hover,
   &:focus,
   &:active {
-    color: foreground-dark();
-    text-decoration: none;
-  }
-}
-
-// Requires the inner icon to have a `class="icon"`
-// on the group/element that will indicate the
-// focused/hover state.
-.icon-button {
-  background-color: transparent;
-  padding: size(s);
-  border-radius: 50%;
-
-  &:hover,
-  &:focus,
-  &:active {
-    .icon {
-      stroke: foreground(focus) !important;
+    &:not([disabled]) {
+      color: foreground-dark();
+      text-decoration: none;
     }
   }
 }
 
-.delete-button {
-  background-color: background-dark();
-  width: 22px;
-  height: 22px;
+
+.icon-button {
+  padding: size(s);
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
-}
 
-a, .link {
-  padding: 0;
-  background: none;
-  border: none;
-  color: color(primary);
-  font-weight: font-weight(medium);
-  text-decoration: none;
+  .icon, svg {
+    stroke: currentColor;
+    overflow: visible;
+  }
 
-  &:hover,
-  &:focus,
-  &:active {
-    outline: none;
-    background: none;
-    text-decoration: underline;
+  .with-text {
+    margin: 0 size(xxs) 0 0;
+  }
+
+  &.vertical {
+    flex-direction: column;
+
+    .with-text {
+      margin: 0 0 size(xxxs);
+    }
+  }
+
+  &.small {
+    .icon, svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &.large {
+    .icon, svg {
+      width: 30px;
+      height: 30px;
+    }
   }
 
   &:focus,
-  &:active {
-    color: color(secondary);
+  &:active,
+  &:hover {
+    color: foreground(focus);
+    background-color: transparent;
+  }
+
+  &.transparent {
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: transparent;
+    }
   }
 }
+
 
 input, textarea, select {
   appearance: none;
