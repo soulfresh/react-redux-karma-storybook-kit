@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import classSet from 'react-classset';
 
-import AuthAPI from '~store/services/auth';
+import AuthAPI from '~/store/services/auth';
 
 import './Login.scss';
 

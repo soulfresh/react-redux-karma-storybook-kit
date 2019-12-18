@@ -13,11 +13,11 @@ import createStore from '../../store';
 import { getRoute } from '../../store/routes';
 import {
   PageLoader,
-} from '~components';
+} from '~/components';
 import {
   Home,
   NotFound,
-} from '~pages';
+} from '~/pages';
 
 import './Main.scss';
 

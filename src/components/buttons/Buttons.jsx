@@ -2,14 +2,13 @@ import React, {forwardRef} from 'react';
 
 import {
   combineClasses,
-} from '~util';
+} from '~/util';
 
 import './Buttons.scss';
 
-import { ReactComponent as EditIcon } from '~assets/icons/edit.svg';
-import { ReactComponent as CloseIcon } from '~assets/icons/x.svg';
+import { ReactComponent as EditIcon } from '~/assets/icons/edit.svg';
+import { ReactComponent as CloseIcon } from '~/assets/icons/x.svg';
 
-console.log('combineClasses', combineClasses);
 export const IconButton = forwardRef(({className, children, ...rest}, ref) => {
   return (
     <button

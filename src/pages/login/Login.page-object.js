@@ -1,5 +1,5 @@
 import PageObject from '~/PageObject';
-import { LabeledInputPageObject } from '~components/page-objects';
+import { LabeledInputPageObject } from '~/components/page-objects';
 
 export const selectors = {
   form: '[data-test=loginForm]',

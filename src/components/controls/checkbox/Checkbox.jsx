@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {ReactComponent as Circle} from '~assets/icons/square.svg';
-import {ReactComponent as Check} from '~assets/icons/check-square.svg';
+import {ReactComponent as Circle} from '~/assets/icons/square.svg';
+import {ReactComponent as Check} from '~/assets/icons/check-square.svg';
 
 import './Checkbox.scss';
 
@@ -12,10 +12,11 @@ export default function Checkbox({
   value,
   onChange,
 }) {
-  const inputProps = {};
+  const inputProps = {
+    checked: !!checked,
+  };
   if (value) inputProps.value = value;
   if (name) inputProps.name = name;
-  inputProps.checked = !!inputProps.checked;
 
   const icon = checked
     ? <Check className="icon checked" data-test="checked" />

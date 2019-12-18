@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NotFound as NotFoundComponent } from '~components';
+import { NotFound as NotFoundComponent } from '~/components';
 
 import './NotFound.scss';
 
