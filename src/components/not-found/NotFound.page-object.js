@@ -1,4 +1,4 @@
-import { LoaderPageObject } from '../loader/page-objects';
+import { PageLoaderPageObject } from '../loader/page-objects';
 
 export const selectors = {
   container: '[data-test=notFound]',
@@ -7,7 +7,7 @@ export const selectors = {
   subtitle: '[data-test=subtitle]',
 };
 
-export default class NotFoundPageObject extends LoaderPageObject {
+export default class NotFoundPageObject extends PageLoaderPageObject {
   get loaderElement() {
     return this.root.querySelector(selectors.root);
   }

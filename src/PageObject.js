@@ -17,13 +17,13 @@ function getSelector(target, prop) {
       'Make sure your PageObject defines a selectors property.'
     );
   }
-  const selector = target.selectors[prop];
+  const selector = target.allSelectors[prop];
   if (!selector) {
     throw new Error(
       `"${target.constructor.name}.selectors.${prop}" does not exist. ` +
       "Make sure you've defined that selector in your PageObject's selector list. " +
       'The current selector list is: '
-      , target.selectors
+      , target.allSelectors
     );
   }
   return selector;
@@ -146,6 +146,30 @@ export class PageSelector {
   }
 
   /*
+   * Check if the element has a 'disabled' attribute.
+   */
+  get disabled() {
+    const el = this.element;
+    if (el) {
+      return el.hasAttribute('disabled');
+    }
+    return false;
+  }
+
+  getValueForElement(element) {
+    if (element) {
+      const tag = element.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') {
+        return element.value;
+      } else {
+        return element.textContent.trim();
+      }
+    } else {
+      return undefined;
+    }
+  }
+
+  /*
    * Get the checked value of a checkbox or radio input.
    */
   get checked() {
@@ -172,17 +196,7 @@ export class PageSelector {
    * returns the trimmed text content.
    */
   get value() {
-    const el = this.element;
-    if (el) {
-      const tag = el.tagName;
-      if (tag === 'INPUT') {
-        return el.value;
-      } else {
-        return el.textContent.trim();
-      }
-    } else {
-      return undefined;
-    }
+    return this.getValueForElement(this.element);
   }
 
   /*
@@ -194,7 +208,7 @@ export class PageSelector {
     const el = this.element;
     if (el) {
       const tag = el.tagName;
-      if (tag === 'INPUT') {
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') {
         el.value = value;
         Simulate.change(el);
         return;
@@ -206,6 +220,37 @@ export class PageSelector {
     console.error(`${this.selector} does not exist and thus cannot be set to ${value}.`);
   }
 
+  /*
+   * Get the value/textContent of all direct children.
+   */
+  get childValues() {
+    const elements = this.allElements;
+    if (elements && elements.length > 0) {
+      return Array.from(elements).map((e) => this.getValueForElement(e));
+    } else {
+      return [];
+    }
+  }
+
+  /*
+   * Determine if the current element has focus.
+   */
+  get focused() {
+    return document.activeElement === this.element;
+  }
+
+  focus() {
+    this.simulateAction('focus', this.element);
+  }
+
+  blur() {
+    this.simulateAction('blur', this.element);
+  }
+
+  /*
+   * @private
+   * Simulate an action on a specific element.
+   */
   simulateAction(action, element) {
     const el = element || this.element;
     if (el) {
@@ -217,20 +262,34 @@ export class PageSelector {
   }
 
   /*
+   * @private
+   * Click on a specific element.
+   */
+  clickElement(el) {
+    switch (el.tagName) {
+      case 'INPUT':
+        if (el.type !== 'submit') {
+          return this.simulateAction('change', el);
+        } else {
+          return this.simulateAction('submit', el);
+        }
+      case 'BUTTON':
+        if (el.type === 'submit') {
+          return this.simulateAction('submit', el);
+        } else {
+          return this.simulateAction('click', el);
+        }
+      default:
+        return this.simulateAction('click', el);
+    }
+  }
+
+  /*
    * Click on the first element that matches this selector.
    */
   click() {
     const el = this.element;
-    switch (el.tagName) {
-      case 'INPUT':
-        if (el.type !== 'submit') {
-          return this.simulateAction('change');
-        } else {
-          return this.simulateAction('submit');
-        }
-      default:
-        return this.simulateAction('click');
-    }
+    return this.clickElement(el);
   }
 
   /*
@@ -242,7 +301,7 @@ export class PageSelector {
     if (elements.length <= index) {
       console.error(`${this.selector} index ${index} does not exist and thus cannot be clicked.`);
     } else {
-      this.simulateAction('click', elements[index]);
+      return this.clickElement(elements[index]);
     }
   }
 
@@ -251,6 +310,14 @@ export class PageSelector {
    */
   submit() {
     return this.simulateAction('submit');
+  }
+
+  /*
+   * Press the enter key while the current element is focused.
+   */
+  pressEnter() {
+    Simulate.keyDown(this.element, {keyCode: 13});
+    Simulate.keyUp(this.element, {keyCode: 13});
   }
 }
 
@@ -373,13 +440,20 @@ export default class PageObject {
    *   from which DOM selections are made. If you don't pass a root
    *   here, the sandbox element will be used.
    */
-  constructor(root) {
+  constructor(root, selectors) {
     this._root = root;
     this.sandbox = null;
+    this.additionalSelectors = selectors;
 
     return new Proxy(this, {
       get(target, prop, receiver) {
         if (target[prop] !== undefined) {
+          if (target.allSelectors[prop]) {
+            console.warn(
+              `Selector name "${prop}" conflicts with an existing PageObject property.
+               Consider renaming "selectors.${prop}".`
+            )
+          }
           return target[prop];
         } else {
           return new PageSelector(
@@ -393,6 +467,17 @@ export default class PageObject {
 
   get root() {
     return this._root ? this._root : this.sandbox;
+  }
+
+  get allSelectors() {
+    if (this.additionalSelectors) {
+      return {
+        ...this.selectors,
+        ...this.additionalSelectors,
+      };
+    } else {
+      return this.selectors || {};
+    }
   }
 
   /*
@@ -569,7 +654,7 @@ export default class PageObject {
    * Simulate a file drop event by triggering
    * dragenter, dragover and drop DOM events.
    */
-  dropFiles(element, files, x=0, y=0) {
+  dropFiles(element, files, x=0, y=0, done) {
     const defaultOptions = {
       view: window,
       bubbles: true,
@@ -597,10 +682,14 @@ export default class PageObject {
     overEvent.dataTransfer = data;
     element.dispatchEvent(overEvent);
 
-    let dropEvent = new CustomEvent('drop', defaultOptions);
-    dropEvent.clientX = x;
-    dropEvent.clientY = y;
-    dropEvent.dataTransfer = data;
-    element.dispatchEvent(dropEvent);
+    setTimeout(() => {
+      let dropEvent = new CustomEvent('drop', defaultOptions);
+      dropEvent.clientX = x;
+      dropEvent.clientY = y;
+      dropEvent.dataTransfer = data;
+      element.dispatchEvent(dropEvent);
+
+      setTimeout(done, 60);
+    });
   }
 }

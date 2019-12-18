@@ -9,7 +9,7 @@ describe('PageLoader', function() {
   let page, loader, app;
 
   beforeEach(function() {
-    page = new PageLoaderPageObject();
+    page = new PageLoaderPageObject(null, {app: '#app'});
   });
 
   afterEach(() => {

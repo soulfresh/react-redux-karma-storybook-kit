@@ -5,9 +5,12 @@ import PageObject, { PageSelector } from './PageObject';
 const selectors = {
   container: '[data-test=root]',
   image: 'img',
-  form: 'form',
+  form1: '[data-test=form1]',
+  form2: '[data-test=form2]',
   input: 'input',
-  button: 'button',
+  normalButton: '[data-test=normalButton]',
+  submitButton: '[data-test=submitButton]',
+  submitInput: '[data-test=submitInput]',
   p: 'p',
   fake: 'fake',
 };
@@ -36,9 +39,15 @@ describe('PageObject', function() {
     page.render(
       <div data-test="root">
         <img alt="" />
-        <button onClick={onClick}>Click Me</button>
-        <form onSubmit={onSubmit}>
+        <button data-test="normalButton" onClick={onClick} type="button">
+          Click Me
+        </button>
+        <form data-test="form1" onSubmit={onSubmit}>
           <input type="text" onChange={onChange} />
+          <input type="submit" data-test="submitInput" value="Submit" />
+        </form>
+        <form data-test="form2" onSubmit={onSubmit}>
+          <button data-test="submitButton" onClick={onClick} />
         </form>
         <p>{ paragraph }</p>
       </div>
@@ -91,18 +100,28 @@ describe('PageObject', function() {
     expect(onChange).toHaveBeenCalled();
   });
 
-  it('should be able to get a ClickProxy.', () => {
-    expect(page.button.click).toEqual(jasmine.any(Function));
-    expect(page.button.click()).toBe(true);
-  });
-
   it('should be able to click on an element.', () => {
-    page.button.click();
+    page.normalButton.click();
     expect(onClick).toHaveBeenCalled();
   });
 
+  it('should trigger a submit when clicking on a submit button.', () => {
+    page.submitButton.click();
+    expect(onSubmit).toHaveBeenCalled();
+  });
+
+  it('should trigger a submit when clicking on an input of type submit.', () => {
+    page.submitInput.click();
+    expect(onSubmit).toHaveBeenCalled();
+  });
+
+  it('should fire a change event when clicking on an input.', () => {
+    page.input.click();
+    expect(onChange).toHaveBeenCalled();
+  });
+
   it('should be able to submit a form through the proxy.', () => {
-    page.form.submit();
+    page.form1.submit();
     expect(onSubmit).toHaveBeenCalled();
   });
 
@@ -110,4 +129,18 @@ describe('PageObject', function() {
     page.submit();
     expect(onSubmit).toHaveBeenCalled();
   });
+
+  // TODO Remaining tests:
+  // pressEnter
+  // clickNth
+  // focused
+  // disabled
+  // classList
+  // nthChild
+  // elementAt
+  // dragFiles
+  // dropFiles
+  // clickElement
+  // setInputValue
+  // findByTestName
 });

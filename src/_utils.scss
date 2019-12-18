@@ -34,6 +34,15 @@
   left: 0;
 }
 
+// Center the element inside a container
+// using absolute positioning.
+@mixin absolute-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 // Represents a horizontal row of elements
 // where the contents are justified with
 // space-between so they align to the edges
