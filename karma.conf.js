@@ -101,7 +101,7 @@ module.exports = function(config) {
                 use: ['@svgr/webpack', 'url-loader'],
               },
               {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|jpg|gif)$/,
                 use: [
                   'file-loader'
                 ]
@@ -114,7 +114,9 @@ module.exports = function(config) {
                   {
                     loader: 'sass-loader',
                     options: {
-                      includePaths: ['src']
+                      sassOptions: {
+                        includePaths: ['src']
+                      }
                     },
                   },
                 ]
