@@ -39,7 +39,7 @@ export default function Main({
   }
 
   return (
-    <div className="home">
+    <div className="main">
       <Provider store={store}>
         <Router history={history}>
           <Suspense fallback={<PageLoader />}>

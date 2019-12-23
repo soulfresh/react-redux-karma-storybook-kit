@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { localStorage } from 'global';
 
-const AUTH_TOKEN_KEY = 'authToken';
+export const AUTH_TOKEN_KEY = 'authToken';
 
 class AuthAPI {
   constructor() {

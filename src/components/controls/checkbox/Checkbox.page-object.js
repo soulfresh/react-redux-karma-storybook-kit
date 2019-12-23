@@ -1,4 +1,4 @@
-import PageObject from '~/PageObject';
+import PageObject from 'page-o';
 
 export const selectors = {
   container: '[data-test=checkbox]',

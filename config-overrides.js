@@ -13,7 +13,7 @@ function readFile(filepath) {
 
 // file types & file links
 const resource = {
-  css:  { loader: readFile('src/components/loader/icon/loader.scss') },
+  css:  { loader: readFile('src/components/loader/icon/loader.css') },
   html: { loader: readFile('src/components/loader/icon/loader.svg') },
 };
 

@@ -7,7 +7,6 @@ describe('Toasts', function() {
 
   beforeEach(function() {
     page = new ToastsPageObject();
-    page.prepareSandbox();
   });
 
   afterEach(function() {

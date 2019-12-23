@@ -1,5 +1,4 @@
-import PageObject from '../../PageObject.js';
-import LoaderService from './loader.service';
+import PageObject from 'page-o';
 
 export const selectors = {
   loader: '[name=loaderComponent]',

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LoaderService, Loader } from '../../components';
+import { PageLoader } from '../../components';
 import './BundleLoadError.scss';
 
 /*
@@ -32,13 +32,11 @@ export default class BundleLoadError extends React.Component {
 
   render() {
     if (this.error) {
-      LoaderService.stop();
-
       return (
         <div className="bundle-load-error" data-test="error">
           <h2 className="title">An error occurred loading {process.env.REACT_APP_NAME}</h2>
           <h3>Please try again in a bit</h3>
-          <Loader />
+          <PageLoader />
         </div>
       );
     } else {

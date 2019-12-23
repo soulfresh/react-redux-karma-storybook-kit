@@ -1,16 +1,26 @@
-import PageObject from '../../PageObject';
-import {
-  PageLoaderPageObject,
-  pageLoaderSelectors,
-} from '~/components/page-objects';
+import { LoaderService } from '~/components';
+import PageObject from 'page-o';
 
 export const selectors = {
-  ...pageLoaderSelectors,
   error: '[data-test=error]',
 };
 
 export default class BundleLoadErrorPageObject extends PageObject {
   selectors = selectors;
+
+  render(component, done, styles) {
+    return super.render(
+      component,
+      styles,
+      `
+        <div
+          id="${LoaderService.selectors.id}"
+          data-test="loader"
+          class="loader"
+        >Loading...</div>
+      `
+    );
+  }
 
   get errorElement() {
     return this.root.querySelector(selectors.error);

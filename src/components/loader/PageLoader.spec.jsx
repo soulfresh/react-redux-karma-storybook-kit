@@ -1,12 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import LoaderService from './loader.service';
 import PageLoaderPageObject from './PageLoader.page-object';
 import PageLoader from './PageLoader.jsx';
 
 describe('PageLoader', function() {
-  let page, loader, app;
+  let page, app;
 
   beforeEach(function() {
     page = new PageLoaderPageObject(null, {app: '#app'});
@@ -16,8 +14,8 @@ describe('PageLoader', function() {
     page.destroySandbox();
   });
 
-  beforeEach(function(done) {
-    app = page.render(<PageLoader />, done);
+  beforeEach(function() {
+    app = page.render(<PageLoader />);
   });
 
   it('should start the page loader on load.', () => {
@@ -26,7 +24,7 @@ describe('PageLoader', function() {
 
   describe('after being destroyed', function() {
     beforeEach(function() {
-      ReactDOM.unmountComponentAtNode(app);
+      page.unmount(app);
     });
 
     it('should stop the page loader.', () => {

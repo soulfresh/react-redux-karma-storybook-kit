@@ -1,9 +1,5 @@
-import React from 'react';
-
-import LoaderService from './loader.service';
-import PageObject from '~/PageObject';
-
-import {ReactComponent as LoaderIcon} from './icon/loader.svg';
+import { LoaderService } from '../../components';
+import PageObject from 'page-o';
 
 export const selectors = {
   loader: '[data-test=loader]',
@@ -12,23 +8,18 @@ export const selectors = {
 export default class PageLoaderPageObject extends PageObject {
   selectors = selectors;
 
-  render(component, done) {
-    this.prepareSandbox();
-
-    const loader = document.createElement('div');
-    loader.setAttribute('id', LoaderService.selectors.id);
-    loader.setAttribute('data-test', 'loader');
-    loader.classList.add('loader', LoaderService.selectors.stop);
-    loader.innerText = 'Loading...';
-    this.sandbox.appendChild(loader);
-
-    const app = document.createElement('div');
-    app.setAttribute('id', 'app');
-    this.sandbox.appendChild(app);
-
-    super.render(component, done, null, true, app);
-
-    return app;
+  render(component, done, styles) {
+    return super.render(
+      component,
+      styles,
+      `
+        <div
+          id="${LoaderService.selectors.id}"
+          data-test="loader"
+          class="loader ${LoaderService.selectors.stop}"
+        >Loading...</div>
+      `
+    );
   }
 
   get loaderElement() {

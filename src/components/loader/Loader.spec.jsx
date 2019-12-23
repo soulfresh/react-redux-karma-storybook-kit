@@ -1,12 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import LoaderPageObject from './Loader.page-object';
-import PageLoaderPageObject from './PageLoader.page-object';
 import Loader from './Loader.jsx';
 
 describe('Loader', function() {
-  let page, loader, app;
+  let page;
 
   beforeEach(function() {
     page = new LoaderPageObject();
@@ -16,8 +14,8 @@ describe('Loader', function() {
     page.destroySandbox();
   });
 
-  beforeEach(function(done) {
-    page.render(<Loader />, done);
+  beforeEach(function() {
+    page.render(<Loader />);
   });
 
   it('should show the loader.', () => {

@@ -1,11 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
+import { chapters } from '~/storybook-chapters';
 import Loader from './Loader.jsx';
 import PageLoader from './PageLoader.jsx';
 
 import { ReactComponent as LoaderIcon } from './icon/loader.svg';
-import './icon/loader.scss';
+import './icon/loader.css';
 
 const loaderStyles = {
   height: '50px',
@@ -25,7 +26,7 @@ function wrap(component) {
   );
 };
 
-storiesOf('Loader', module)
+storiesOf(chapters.LOADER, module)
   .addWithChapters('Loader', {
     chapters: [{
       title: 'Page Loader Component',

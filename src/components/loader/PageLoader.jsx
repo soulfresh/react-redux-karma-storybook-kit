@@ -1,8 +1,6 @@
 import React from 'react';
 import LoaderService from './loader.service';
 
-import './PageLoader.scss';
-
 /*
  * Start/Stop the global page loader embedded in the HTML page.
  * This component expects a loader element to exist on the page

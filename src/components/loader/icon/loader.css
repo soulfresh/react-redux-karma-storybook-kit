@@ -1,5 +1,3 @@
-@import 'theme';
-
 /*
  * Style definitions for the loader.
  * The loader is hardcoded into the index file so that
@@ -7,7 +5,10 @@
  * (before the app bootstraps).
  */
 .loader.page {
-  @include absolute-centered;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 15vw;
   height: 15vh;
 }

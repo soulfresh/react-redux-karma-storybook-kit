@@ -1,34 +1,14 @@
 import React from 'react';
 
-import { LoaderService } from '../../components';
 import PageLoaderPageObject from '../../components/loader/PageLoader.page-object';
 import BundleLoadErrorPageObject from './BundleLoadError.page-object';
 import BundleLoadError from './BundleLoadError.jsx';
 
 describe('BundleLoadError', function() {
-  let page, loader, app;
-
-  // We create our own sandbox in this test because we need
-  // the loader to be started before the BundleLoadError component
-  // is created.
-  function prepareSandbox() {
-    page.prepareSandbox();
-
-    loader = document.createElement('div');
-    loader.setAttribute('id', LoaderService.selectors.id);
-    loader.setAttribute('data-test', 'loader');
-    loader.classList.add('loader');
-    loader.innerText = 'Loading...';
-    page.sandbox.appendChild(loader);
-
-    app = document.createElement('div');
-    app.setAttribute('id', 'app');
-    page.sandbox.appendChild(app);
-  }
+  let page;
 
   beforeEach(function() {
-    page = new BundleLoadErrorPageObject(null, {noError: '[data-test=noError]'});
-    prepareSandbox();
+    page = new BundleLoadErrorPageObject();
   });
 
   afterEach(() => {
@@ -36,39 +16,36 @@ describe('BundleLoadError', function() {
   });
 
   describe('with the error prop', function() {
-    beforeEach((done) => {
-      const component = (
+    beforeEach(() => {
+      page.render(
         <BundleLoadError error={true}>
-          <h1 data-test="noError">No Error</h1>
+          <h1 name="no-error">No Error</h1>
         </BundleLoadError>
       );
-
-      page.render(component, done, null, true, app);
     });
 
     it('should show the error.', () => {
-      expect(page.error.exists).toBe(true);
+      expect(page.errorIsVisible).toBe(true);
     });
 
-    it('should stop the global loader.', () => {
+    it('should show the page loader.', () => {
       const pageLoader = new PageLoaderPageObject(page.sandbox);
-      expect(pageLoader.loaderIsVisible).toBe(false);
+      expect(pageLoader.loaderIsVisible).toBe(true);
     });
 
     it('should not show the child elements.', () => {
-      expect(page.noError.exists).toBe(false);
+      const children = page.sandbox.querySelector('[name=no-error]');
+      expect(children).toBeNull();
     });
   });
 
   describe('without the error prop', function() {
-    beforeEach(function(done) {
-      const component = (
+    beforeEach(function() {
+      page.render(
         <BundleLoadError>
-          <h1 data-test="noError">No Error</h1>
+          <h1 name="no-error">No Error</h1>
         </BundleLoadError>
       );
-
-      page.render(component, done, null, true, app);
     });
 
     it('should not show the error.', () => {
@@ -76,7 +53,8 @@ describe('BundleLoadError', function() {
     });
 
     it('should show the children.', () => {
-      expect(page.noError.exists).toBe(true);
+      const children = page.sandbox.querySelector('[name=no-error]');
+      expect(children).not.toBeNull();
     });
 
     // Stopping the global loader is the responsibility of children

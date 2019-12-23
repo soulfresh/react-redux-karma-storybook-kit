@@ -9,6 +9,7 @@ import './Buttons.scss';
 import { ReactComponent as EditIcon } from '~/assets/icons/edit.svg';
 import { ReactComponent as CloseIcon } from '~/assets/icons/x.svg';
 
+/* istanbul ignore next */
 export const IconButton = forwardRef(({className, children, ...rest}, ref) => {
   return (
     <button
@@ -26,6 +27,7 @@ export const IconButton = forwardRef(({className, children, ...rest}, ref) => {
 
 
 // VERTICAL
+/* istanbul ignore next */
 export const EditButton = forwardRef(({className, ...rest}, ref) => {
   return (
     <IconButton className={combineClasses('vertical', className)} {...rest} ref={ref} >
@@ -36,6 +38,7 @@ export const EditButton = forwardRef(({className, ...rest}, ref) => {
 });
 
 // NO TEXT
+/* istanbul ignore next */
 export const CloseButton = forwardRef(({...rest}, ref) => {
   return (
     <IconButton {...rest} ref={ref} >
@@ -44,6 +47,7 @@ export const CloseButton = forwardRef(({...rest}, ref) => {
   );
 });
 
+/* istanbul ignore next */
 export const RemoveButton = forwardRef(({className, ...rest}, ref) => {
   return (
     <IconButton className={combineClasses('small', className)} {...rest} ref={ref} >

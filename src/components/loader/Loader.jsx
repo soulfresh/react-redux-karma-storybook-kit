@@ -3,7 +3,7 @@ import React from 'react';
 import './Loader.scss';
 
 import { ReactComponent as LoaderIcon } from './icon/loader.svg';
-import './icon/loader.scss';
+import './icon/loader.css';
 
 export default function Loader() {
   return (
