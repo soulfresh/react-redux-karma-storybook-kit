@@ -17,9 +17,9 @@ describe('auth', function() {
 
   beforeEach(function() {
     onFailure = jasmine.createSpy('onFailure');
-    spyOn(localStorage, 'getItem');
-    spyOn(localStorage, 'setItem');
-    spyOn(localStorage, 'removeItem');
+    spyOn(localStorage.__proto__, 'getItem');
+    spyOn(localStorage.__proto__, 'setItem');
+    spyOn(localStorage.__proto__, 'removeItem');
   });
 
   describe('when logging in unsuccessfully', function() {

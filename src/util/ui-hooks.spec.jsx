@@ -14,7 +14,7 @@ describe('UI Hooks', function() {
 
   describe('useScrollToTop', function() {
     const Component = (props) => {
-      const id = useScrollToTop();
+      useScrollToTop();
       return <div {...props}></div>;
     };
 
