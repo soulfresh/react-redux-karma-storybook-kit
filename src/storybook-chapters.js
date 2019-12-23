@@ -4,4 +4,5 @@ export const chapters = {
   BUTTONS       : '3 Buttons',
   FORMS         : '4 Forms',
   NOTIFICATIONS : '5 Notifications',
+  LOADER        : '6 Loader',
 };
