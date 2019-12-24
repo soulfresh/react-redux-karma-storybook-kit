@@ -98,7 +98,10 @@ module.exports = function(config) {
               {
                 test: /\.svg$/,
                 // Load SVG as ReactComponent
-                use: ['@svgr/webpack', 'url-loader'],
+                use: [
+                  '@svgr/webpack',
+                  'file-loader'
+                ],
               },
               {
                 test: /\.(png|jpg|gif)$/,
