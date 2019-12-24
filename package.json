@@ -73,8 +73,12 @@
     "webpack": "4.41.2"
   },
   "scripts": {
-    "start": "env-cmd -f ./.env react-app-rewired start",
+    "start": "env-cmd -f ./.env.dev react-app-rewired start",
     "start-local": "env-cmd -f ./.env.local-dev react-app-rewired start",
+    "start-static-ui": "env-cmd -f ./.env.static-dev react-app-rewired start",
+    "start-static": "NPM_EXECPATH=yarn run-p mock-backend start-static-ui",
+    "generate": "plop",
+    "dev": "env-cmd -f ./.env.dev react-app-rewired start",
     "build": "react-app-rewired build",
     "analyze": "yarn build && source-map-explorer 'build/static/js/*.js' --html coverage/analysis/result.html",
     "clean": "rimraf ./{build,test-results,coverage}",
@@ -89,7 +93,7 @@
     "eslint-ci": "eslint --config './.eslintrc.js' 'src/**/*.{js,jsx}'",
     "test": "karma start --reporters=progress,coverage,kjhtml --coverageType=summary",
     "test-debug": "karma start --reporters=progress,kjhtml --jasmine-timeout=300000 --browser-loglevel=debug",
-    "test-ci": "karma start --progress=false --singleRun=true --browsers=Chrome,Firefox --reporters=spec,junit,coverage --coverageType=ci",
+    "test-ci": "karma start --progress=false --singleRun=true --browsers=Firefox,Chrome --reporters=spec,junit,coverage --coverageType=ci --env=test-ci",
     "coverage": "karma start --singleRun=true --reporters=dots,coverage --coverageType=ci",
     "validate": "yarn validate-ci && yarn build-storybook",
     "validate-ci": "yarn lint-ci && yarn test-ci && yarn analyze",
