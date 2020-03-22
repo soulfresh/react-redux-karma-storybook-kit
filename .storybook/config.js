@@ -24,5 +24,5 @@ setDefaults({
 });
 setAddon(chaptersAddon);
 
-configure(require.context('../src/', true, /\.stories\.(js|jsx)$/), module);
+configure(require.context('../src/', true, /\.(story|stories)\.(js|jsx)$/), module);
 

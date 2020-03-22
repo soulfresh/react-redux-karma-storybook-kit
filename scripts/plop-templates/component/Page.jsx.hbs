@@ -7,7 +7,7 @@ import {
 
 import styles from './{{pascalCase name}}.module.scss';
 
-export default function {{pascalCase name}}({
+export function {{pascalCase name}}({
   className,
   ...rest
 }) {
@@ -23,3 +23,6 @@ export default function {{pascalCase name}}({
 {{pascalCase name}}.propTypes = {
 };
 
+export default function Connected(props) {
+  return <{{pascalCase name}} />;
+}

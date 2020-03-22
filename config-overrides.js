@@ -4,8 +4,10 @@ const {
   override,
   addWebpackAlias,
   addWebpackPlugin,
+  adjustStyleLoaders,
 } = require('customize-cra');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
+const jsonImporter = require( 'node-sass-json-importer' );
 
 function readFile(filepath) {
   return fs.readFileSync(path.resolve(__dirname, filepath), 'utf8');
@@ -26,6 +28,19 @@ module.exports = override(
   addWebpackAlias({
     '~': path.resolve(__dirname, 'src/'),
   }),
+
+  adjustStyleLoaders(({ use: [ , css, postcss, resolveLoader, sass ] }) => {
+    if (sass) {
+      sass.options = {
+        ...sass.options,
+        sassOptions: {
+          ...sass.options.sassOptions,
+          importer: jsonImporter(),
+        }
+      }
+    }
+  }),
+
   addWebpackPlugin(
     // Replace html contents with string or regex patterns
     new HtmlReplaceWebpackPlugin([{

@@ -1,6 +1,7 @@
-import PageObject from '~/PageObject';
+import PageObject from 'page-o';
 
 export const selectors = {
+  container: '[data-test={{camelCase name}}]',
 };
 
 export default class {{pascalCase name}}PageObject extends PageObject {

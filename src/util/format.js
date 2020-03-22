@@ -36,10 +36,19 @@ export function formatCurrency(pennies, currency='USD', locale) {
  * Combine two class strings, removing duplicates and handling
  * empty, null or undefined strings.
  */
-export function combineClasses(a, b) {
-  if (!a) return b;
-  if (!b) return a;
-  return [...new Set(
-    a.split(' ').concat(b.split(' '))
-  )].join(' ').trim();
+export function combineClasses(...classes) {
+  const list = classes.reduce(
+    (acc, arg) => {
+      if (typeof arg === 'string') {
+        const c = arg.trim().split(' ');
+        if (c.length > 0) acc = acc.concat(c);
+      }
+      return acc;
+    }
+    , []
+  );
+
+  if (list.length > 0) {
+    return [...new Set(list)].join(' ').trim();
+  }
 }

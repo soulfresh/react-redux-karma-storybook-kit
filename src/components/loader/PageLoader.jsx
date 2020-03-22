@@ -9,16 +9,12 @@ import LoaderService from './loader.service';
  *
  * @See `loader.service.jsx`
  */
-export default class PageLoader extends React.Component {
-  componentDidMount() {
+export default function PageLoader() {
+  React.useEffect(() => {
     LoaderService.start();
-  }
 
-  componentWillUnmount() {
-    LoaderService.stop();
-  }
+    return () => LoaderService.stop();
+  }, []);
 
-  render() {
-    return null;
-  }
+  return null;
 }

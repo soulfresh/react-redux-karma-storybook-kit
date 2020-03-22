@@ -38,6 +38,9 @@ describe('format', function() {
       expect(combineClasses(undefined, 'foo')).toEqual('foo');
       expect(combineClasses('foo', undefined)).toEqual('foo');
       expect(combineClasses(undefined, undefined)).not.toBeDefined();
+      expect(combineClasses('foo', 'bar', 'baz', 'boz')).toEqual('foo bar baz boz');
+      expect(combineClasses('foo bar', 'baz', 'boz')).toEqual('foo bar baz boz');
+      expect(combineClasses('foo bar', 'baz', null)).toEqual('foo bar baz');
     });
   });
 });
