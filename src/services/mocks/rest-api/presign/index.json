@@ -1,0 +1,17 @@
+{
+  "fields":{
+    "key":"development/uploads/cache/92fe1a8280ac41273de030a335468ac9",
+    "Content-Disposition":"inline; filename=\"\"",
+    "Content-Type":"image/jpeg",
+    "success_action_status":"201",
+    "policy":"eyJleHBpcmF0aW9uIjoiMjAxOS",
+    "x-amz-credential":"AKDSLFCIDUYACODK/20191124/us-east-1/s3/aws4_request",
+    "x-amz-algorithm":"AWS4-HMAC-SHA256",
+    "x-amz-date":"20191124T221110Z",
+    "x-amz-signature":"3274b9c3a0fe224afaedd937e1252cc27c5aa925da72386ab7cabf516fac444a"
+  },
+  "headers":{
+  },
+  "method":"post",
+  "url":"http://localhost:8080/aws/upload"
+}

@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const {
+  tap,
   override,
+  useEslintRc,
   addWebpackAlias,
   addWebpackPlugin,
+  addWebpackModuleRule,
   adjustStyleLoaders,
 } = require('customize-cra');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
@@ -25,9 +28,7 @@ const tpl = {
 };
 
 module.exports = override(
-  addWebpackAlias({
-    '~': path.resolve(__dirname, 'src/'),
-  }),
+  useEslintRc(),
 
   adjustStyleLoaders(({ use: [ , css, postcss, resolveLoader, sass ] }) => {
     if (sass) {
@@ -39,6 +40,10 @@ module.exports = override(
         }
       }
     }
+  }),
+
+  addWebpackAlias({
+    '~' : path.resolve(__dirname, 'src/'),
   }),
 
   addWebpackPlugin(
@@ -53,12 +58,19 @@ module.exports = override(
         // Then fetch css link from some resource object
         // var url = resources['css']['bootstrap']
 
-        var url = resource[type][file]
+        var url = resource[type][file];
 
         // $1==='@@' <--EQ--> $4===undefined
-        return $4 == undefined ? url : tpl[type].replace('%s', url)
+        return $4 == undefined ? url : tpl[type].replace('%s', url);
       }
-    }
-  ])),
+    }])
+  ),
+
+  addWebpackModuleRule({
+    test: /\.(graphql|txt)$/i,
+    use: 'raw-loader',
+  }),
+
+  // tap({message: '--------- FINAL ---------'}),
 );
 
