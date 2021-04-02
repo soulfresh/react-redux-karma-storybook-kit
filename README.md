@@ -1,4 +1,4 @@
-This is the Build UI for dotFoliov3.
+**DEPRECATED** Use https://github.com/soulfresh/react-website-template
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 and [Redux Starter Kit](https://redux-starter-kit.js.org/). It uses
