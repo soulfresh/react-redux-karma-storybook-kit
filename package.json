@@ -53,7 +53,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "^0.0.32",
     "karma-webpack": "^4.0.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "node-sass-json-importer": "^4.1.2",
     "page-o": "^0.5.1",
     "plop": "^2.6.0",
