@@ -64,7 +64,7 @@
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
     "source-map-explorer": "^2.4.1",
-    "stylelint": "^13.2.1",
+    "stylelint": "^15.10.1",
     "stylelint-a11y": "^1.2.3",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-scss": "^3.16.0",
